@@ -9,7 +9,7 @@ import java.nio.charset.CharsetDecoder
 
 class Converter {
 
-    fun detectCharset(): Charset? {
+    fun detectCharset(file: File): Charset? {
 
         val charsetList = arrayListOf<Charset>()
         charsetList.add(Charsets.US_ASCII)
@@ -17,7 +17,6 @@ class Converter {
         charsetList.add(Charsets.UTF_16LE)
 
         for (type in charsetList) {
-            val file = File("./src/test.txt")
             val input = BufferedInputStream(FileInputStream(file))
             println("Current Type $type")
             val decoder = type.newDecoder()
