@@ -1,13 +1,51 @@
 package com.example.fileconverter
 
-import java.io.BufferedInputStream
-import java.io.File
-import java.io.FileInputStream
+import android.content.Context
+import android.widget.Toast
+import java.io.*
 import java.nio.ByteBuffer
 import java.nio.charset.Charset
 import java.nio.charset.CharsetDecoder
+import java.nio.charset.StandardCharsets
 
 class Converter {
+
+    fun convertEncoding(targetEncoding: String, file: File, context: Context) {
+        val fileEncoding = detectCharset(file)
+
+        var decoder: CharsetDecoder
+
+        fileEncoding?.let {
+            decoder = fileEncoding.newDecoder()
+            decoder.reset()
+            val decodedText = decoder.decode(ByteBuffer.wrap(file.readBytes()))
+
+            val encoder = StandardCharsets.UTF_8.newEncoder()
+            encoder.reset()
+
+            val result = encoder.encode(decodedText)
+
+            val saveFile = File("./src/after.txt")
+
+            if (!saveFile.exists()) {
+                saveFile.createNewFile()
+            }
+
+            val outputStream = BufferedOutputStream(FileOutputStream(saveFile))
+            outputStream.write(result.array())
+            outputStream.flush()
+
+            outputStream.close()
+
+
+        } ?: run {
+            Toast.makeText(context, "No supply encoding try another option", Toast.LENGTH_SHORT)
+                .show()
+        }
+
+
+    }
+
 
     fun detectCharset(file: File): Charset? {
 
