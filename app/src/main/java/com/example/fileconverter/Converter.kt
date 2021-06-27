@@ -10,6 +10,19 @@ import java.nio.charset.StandardCharsets
 
 class Converter {
 
+    private lateinit var encodingList: ArrayList<Charset>
+
+    init {
+        encodingList = ArrayList()
+        encodingList.add(Charsets.US_ASCII)
+        encodingList.add(Charsets.UTF_16)
+        encodingList.add(Charsets.UTF_16BE)
+        encodingList.add(Charsets.UTF_32)
+        encodingList.add(Charsets.UTF_32BE)
+        encodingList.add(Charsets.UTF_32LE)
+        encodingList.add(Charsets.UTF_8)
+    }
+
     fun convertEncoding(targetEncoding: String, file: File, context: Context) {
         val fileEncoding = detectCharset(file)
 
@@ -42,10 +55,49 @@ class Converter {
             Toast.makeText(context, "No supply encoding try another option", Toast.LENGTH_SHORT)
                 .show()
         }
-
-
     }
 
+    fun convertEncoding(
+        targetEncoding: String,
+        sourceEncoding: String,
+        file: File,
+        context: Context
+    ) {
+        var decoder: CharsetDecoder? = null
+
+
+        for (type in encodingList) {
+            if (type.toString() == sourceEncoding) {
+                decoder = type.newDecoder()
+                decoder.reset()
+                break
+            }
+        }
+
+        if (decoder == null){
+            Toast.makeText(context, "No offer encoding", Toast.LENGTH_LONG).show()
+            return
+        }
+
+        val decodedText = decoder.decode(ByteBuffer.wrap(file.readBytes()))
+
+        val encoder = StandardCharsets.UTF_8.newEncoder()
+        encoder.reset()
+
+        val result = encoder.encode(decodedText)
+
+        val saveFile = File("./src/after.txt")
+
+        if (!saveFile.exists()) {
+            saveFile.createNewFile()
+        }
+
+        val outputStream = BufferedOutputStream(FileOutputStream(saveFile))
+        outputStream.write(result.array())
+        outputStream.flush()
+
+        outputStream.close()
+    }
 
     fun detectCharset(file: File): Charset? {
 
