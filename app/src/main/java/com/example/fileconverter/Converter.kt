@@ -10,6 +10,19 @@ import java.nio.charset.StandardCharsets
 
 class Converter {
 
+    companion object {
+        @Volatile
+        private var instance: Converter? = null
+
+        @JvmStatic
+        fun getInstance(): Converter =
+            instance ?: synchronized(this) {
+                instance ?: Converter().also {
+                    instance = it
+                }
+            }
+    }
+
     private lateinit var encodingList: ArrayList<Charset>
 
     init {
@@ -74,7 +87,7 @@ class Converter {
             }
         }
 
-        if (decoder == null){
+        if (decoder == null) {
             Toast.makeText(context, "No offer encoding", Toast.LENGTH_LONG).show()
             return
         }
