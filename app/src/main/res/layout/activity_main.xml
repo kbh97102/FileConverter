@@ -7,17 +7,93 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/testButton"
+        android:id="@+id/fileOpenButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:backgroundTint="@color/black"
-        android:textColor="@color/white"
-        android:textSize="30sp"
-        android:text="File"
-        />
+        android:text="open"
+        app:layout_constraintStart_toStartOf="@id/buttonStartLine"
+        app:layout_constraintTop_toBottomOf="@id/buttonTopLine" />
+
+    <TextView
+        android:id="@+id/selectedFileName"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:gravity="center"
+        android:hint="Selected File Name"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@id/fileOpenButton"
+        app:layout_constraintEnd_toStartOf="@id/endLine"
+        app:layout_constraintStart_toEndOf="@id/fileOpenButton"
+        app:layout_constraintTop_toBottomOf="@id/buttonTopLine" />
+
+    <RadioGroup
+        android:id="@+id/buttonGroup"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintBottom_toBottomOf="@id/buttonBottomLine"
+        app:layout_constraintEnd_toEndOf="@id/endLine"
+        app:layout_constraintStart_toStartOf="@id/buttonStartLine"
+        app:layout_constraintTop_toBottomOf="@id/fileOpenButton">
+
+        <RadioButton
+            android:id="@+id/autoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Auto"
+            android:textSize="40sp" />
+
+        <RadioButton
+            android:id="@+id/selectMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select"
+            android:textSize="40sp" />
+
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/convertButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/black"
+        android:text="Convert"
+        android:textSize="40sp"
+        app:layout_constraintStart_toStartOf="@id/buttonStartLine"
+        app:layout_constraintTop_toBottomOf="@id/buttonBottomLine" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/buttonBottomLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.7" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/buttonStartLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.15" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/buttonTopLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.15" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/endLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.85" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
